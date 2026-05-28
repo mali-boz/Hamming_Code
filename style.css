@@ -1,0 +1,77 @@
+/* style.css — Tüm görsel stiller / All visual styles */
+
+/* ============================================================
+   TODO: GENEL SIFIRLAMA & TEMEL STİLLER
+   ============================================================ */
+/* TODO: *, *::before, *::after → box-sizing: border-box reset */
+/* TODO: body → font-family (system veya Google Fonts), arka plan rengi, padding */
+/* TODO: Genel renk paleti CSS custom properties olarak tanımla:
+         --color-primary, --color-secondary,
+         --color-parity, --color-data,
+         --color-error, --color-corrected,
+         --color-bg, --color-text              */
+
+/* ============================================================
+   TODO: HEADER STİLLERİ
+   ============================================================ */
+/* TODO: h1 → büyük, bold, ortalanmış başlık */
+/* TODO: Alt başlık → daha küçük, soluk renk */
+
+/* ============================================================
+   TODO: KONTROL PANELİ (#controls)
+   ============================================================ */
+/* TODO: Flexbox veya grid ile butonları yatay hizala */
+/* TODO: Bit-uzunluğu seçici → radio group veya select stili */
+/* TODO: Input alanı → monospace font, geniş, border vurgusu */
+/* TODO: Butonlar → padding, border-radius, hover efekti, cursor pointer */
+/* TODO: Buton durumları: :hover, :active, :disabled */
+/* TODO: Her buton grubunu mantıksal olarak ayır (gap/margin) */
+
+/* ============================================================
+   TODO: BIT GRID (#bit-grid-container)
+   ============================================================ */
+/* TODO: CSS Grid ile bit hücrelerini yatay sıralı göster */
+/* TODO: .bit-cell → sabit genişlik/yükseklik kare hücre, border, ortalanmış text */
+/* TODO: .bit-cell.parity → parity bitleri için farklı arka plan rengi (--color-parity) */
+/* TODO: .bit-cell.data → data bitleri için farklı arka plan rengi (--color-data) */
+/* TODO: .bit-cell.error → hatalı bit için kırmızı/turuncu vurgu (--color-error) */
+/* TODO: .bit-cell.corrected → düzeltilmiş bit için yeşil vurgu (--color-corrected) */
+/* TODO: .bit-cell:hover → hover efekti (tıklanabilir olduğunu göster) */
+/* TODO: .bit-cell .position-label → hücre üstündeki pozisyon numarası, küçük font */
+/* TODO: Grid'in responsive olması: 32-bit'te satır kırılmasına izin ver */
+
+/* ============================================================
+   TODO: BELLEK GÖRÜNTÜLEME (#memory-view)
+   ============================================================ */
+/* TODO: Tablo veya grid stili → adres + değer sütunları */
+/* TODO: Satır hover efekti */
+/* TODO: Monospace font (binary data için) */
+/* TODO: Boş bellek satırları soluk renkte */
+
+/* ============================================================
+   TODO: SONUÇ PANELİ (#result-panel)
+   ============================================================ */
+/* TODO: Log mesajları için dikey liste stili */
+/* TODO: Farklı mesaj tipleri için renk kodları:
+         .log-info (mavi), .log-success (yeşil),
+         .log-warning (sarı), .log-error (kırmızı)  */
+/* TODO: Kaydırılabilir (overflow-y: auto, max-height) */
+/* TODO: Her log satırına zaman damgası stili (opsiyonel) */
+
+/* ============================================================
+   TODO: FOOTER
+   ============================================================ */
+/* TODO: Ortalanmış, küçük font, soluk renk */
+
+/* ============================================================
+   TODO: YARDIMCI SINIFLAR / UTILITIES
+   ============================================================ */
+/* TODO: .hidden → display: none */
+/* TODO: .monospace → font-family: monospace */
+/* TODO: .highlight-animation → kısa bir flash/pulse animasyonu (keyframes) */
+
+/* ============================================================
+   TODO: RESPONSIVE / MOBİL
+   ============================================================ */
+/* TODO: @media (max-width: 768px) → grid sütun sayısını azalt */
+/* TODO: @media (max-width: 480px) → butonları dikeye çevir */
