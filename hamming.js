@@ -6,76 +6,164 @@
 // TODO: YARDIMCI FONKSİYONLAR (HELPER FUNCTIONS)
 // =============================================================
 
-// TODO: calculateParityBitCount(dataBitCount)
-//   - Verilen data bit sayısı için gerekli parity bit sayısını hesapla
-//   - Formül: 2^r >= m + r + 1 (m = data bits, r = parity bits)
-//   - Return: parity bit sayısı (integer)
+// Verilen data bit sayısı için gerekli parity bit sayısını hesaplar (2^r >= m + r + 1)
+function calculateParityBitCount(dataBitCount) {
+    let r = 1;
+    while (Math.pow(2, r) < dataBitCount + r + 1) {
+        r++;
+    }
+    return r;
+}
 
-// TODO: isPowerOfTwo(n)
-//   - Verilen sayının 2'nin kuvveti olup olmadığını kontrol et
-//   - Parity bit pozisyonlarını belirlemek için kullanılacak
-//   - Return: boolean
+// Verilen sayının 2'nin kuvveti olup olmadığını kontrol eder (parity pozisyonları için)
+function isPowerOfTwo(n) {
+    return n > 0 && (n & (n - 1)) === 0;
+}
 
-// TODO: validateInput(binaryString, expectedLength)
-//   - Girişin sadece '0' ve '1' karakterlerinden oluştuğunu doğrula
-//   - Uzunluğun beklenen değere (8, 16, 32) eşit olduğunu kontrol et
-//   - Return: { valid: boolean, error: string | null }
+// Girişin geçerli bir binary string olduğunu ve beklenen uzunlukta olduğunu doğrular
+function validateInput(binaryString, expectedLength) {
+    if (!/^[01]+$/.test(binaryString)) {
+        return { valid: false, error: "Giriş sadece '0' ve '1' karakterlerinden oluşmalıdır." };
+    }
+    if (binaryString.length !== expectedLength) {
+        return { valid: false, error: "Giriş uzunluğu " + expectedLength + " bit olmalıdır, şu an: " + binaryString.length + " bit." };
+    }
+    return { valid: true, error: null };
+}
 
 // =============================================================
 // TODO: ENCODING (KODLAMA)
 // =============================================================
 
-// TODO: encode(dataBits)
-//   - dataBits: string (örn. "10110011")
-//   - Adım 1: Toplam bit uzunluğunu hesapla (data + parity)
-//   - Adım 2: Parity pozisyonlarını (1, 2, 4, 8, ...) boş bırakarak data bitlerini yerleştir
-//   - Adım 3: Her parity bitini ilgili pozisyonlardaki bitlere göre hesapla (XOR)
-//   - Return: encodedBits dizisi (array of 0/1 integers), 1-indexed pozisyonlar
+// Data bitlerini Hamming kodu ile kodlar (parity bitleri hesaplanıp eklenir)
+function encode(dataBits) {
+    var m = dataBits.length;
+    var r = calculateParityBitCount(m);
+    var totalLength = m + r;
 
-// TODO: getParityPositions(totalLength)
-//   - Verilen toplam uzunluk için parity bit pozisyonlarını döndür
-//   - Return: array of integers (örn. [1, 2, 4, 8])
+    // 1-indexed dizi: index 0 kullanılmaz, pozisyonlar 1'den başlar
+    var encodedBits = new Array(totalLength + 1).fill(0);
 
-// TODO: getDataPositions(totalLength)
-//   - Verilen toplam uzunluk için data bit pozisyonlarını döndür
-//   - Return: array of integers (parity pozisyonları hariç tüm pozisyonlar)
+    // Adım 1: Data bitlerini parity-olmayan pozisyonlara yerleştir
+    var dataPositions = getDataPositions(totalLength);
+    for (var i = 0; i < dataPositions.length; i++) {
+        encodedBits[dataPositions[i]] = parseInt(dataBits[i]);
+    }
 
-// TODO: calculateParityBit(encodedBits, parityPosition, totalLength)
-//   - Belirli bir parity pozisyonu için parity değerini hesapla
-//   - parityPosition'ın kapsadığı bitleri XOR'la
-//   - Kapsam kuralı: parityPosition kadar al, parityPosition kadar atla (tekrarla)
-//   - Return: 0 veya 1
+    // Adım 2: Her parity bitini hesapla ve yerleştir
+    var parityPositions = getParityPositions(totalLength);
+    for (var j = 0; j < parityPositions.length; j++) {
+        encodedBits[parityPositions[j]] = calculateParityBit(encodedBits, parityPositions[j], totalLength);
+    }
+
+    return encodedBits;
+}
+
+// Verilen toplam uzunluk için parity bit pozisyonlarını döndürür (1, 2, 4, 8, ...)
+function getParityPositions(totalLength) {
+    var positions = [];
+    var p = 1;
+    while (p <= totalLength) {
+        positions.push(p);
+        p *= 2;
+    }
+    return positions;
+}
+
+// Verilen toplam uzunluk için data bit pozisyonlarını döndürür (parity hariç)
+function getDataPositions(totalLength) {
+    var positions = [];
+    for (var i = 1; i <= totalLength; i++) {
+        if (!isPowerOfTwo(i)) {
+            positions.push(i);
+        }
+    }
+    return positions;
+}
+
+// Belirli bir parity pozisyonu için parity değerini XOR ile hesaplar
+function calculateParityBit(encodedBits, parityPosition, totalLength) {
+    var parity = 0;
+    for (var i = 1; i <= totalLength; i++) {
+        // i pozisyonunun bu parity biti tarafından kapsanıp kapsanmadığını kontrol et
+        // Kural: i'nin binary gösteriminde parityPosition'ın biti set ise kapsanır
+        if ((i & parityPosition) !== 0) {
+            parity ^= encodedBits[i];
+        }
+    }
+    return parity;
+}
 
 // =============================================================
-// TODO: SYNDROME HESAPLAMA (HATA TESPİTİ)
+// SYNDROME HESAPLAMA (HATA TESPİTİ)
 // =============================================================
 
-// TODO: calculateSyndrome(receivedBits)
-//   - receivedBits: array of 0/1 integers
-//   - Her parity pozisyonu için parity kontrolü yap
-//   - Syndrome değerini oluştur (parity hatalarının pozisyonlarının toplamı)
-//   - Return: { syndrome: integer, errorPosition: integer }
-//     syndrome = 0 → hata yok
-//     syndrome > 0 → hatalı bit pozisyonu
+// Alınan bitlerde hata olup olmadığını tespit eder ve hatalı pozisyonu döndürür
+function calculateSyndrome(receivedBits) {
+    var totalLength = receivedBits.length - 1; // index 0 kullanılmıyor
+    var parityPositions = getParityPositions(totalLength);
+    var syndrome = 0;
+
+    // Her parity pozisyonu için kontrol et, hatalıysa syndrome'a ekle
+    for (var i = 0; i < parityPositions.length; i++) {
+        var parity = 0;
+        for (var j = 1; j <= totalLength; j++) {
+            if ((j & parityPositions[i]) !== 0) {
+                parity ^= receivedBits[j];
+            }
+        }
+        // Parity 1 ise bu pozisyonda hata var, syndrome'a ekle
+        if (parity !== 0) {
+            syndrome += parityPositions[i];
+        }
+    }
+
+    return {
+        syndrome: syndrome,
+        errorPosition: syndrome // syndrome değeri doğrudan hatalı bit pozisyonunu verir
+    };
+}
 
 // =============================================================
-// TODO: HATA DÜZELTME (ERROR CORRECTION)
+// HATA DÜZELTME (ERROR CORRECTION)
 // =============================================================
 
-// TODO: correctError(receivedBits, errorPosition)
-//   - errorPosition'daki biti flip et (0→1, 1→0)
-//   - Return: correctedBits dizisi (yeni bir kopi, orijinali değiştirme)
+// Hatalı pozisyondaki biti flip ederek hatayı düzeltir (orijinali değiştirmez)
+function correctError(receivedBits, errorPosition) {
+    var correctedBits = receivedBits.slice(); // orijinalin kopyasını al
+    correctedBits[errorPosition] = correctedBits[errorPosition] === 0 ? 1 : 0;
+    return correctedBits;
+}
 
 // =============================================================
-// TODO: DECODE (ÇÖZME)
+// DECODE (ÇÖZME)
 // =============================================================
 
-// TODO: decode(encodedBits)
-//   - Encoded diziden sadece data bitlerini çıkar (parity pozisyonlarını atla)
-//   - Return: dataBits string (örn. "10110011")
+// Encoded diziden parity bitlerini çıkararak sadece data bitlerini döndürür
+function decode(encodedBits) {
+    var totalLength = encodedBits.length - 1; // index 0 kullanılmıyor
+    var dataPositions = getDataPositions(totalLength);
+    var dataBits = "";
+
+    for (var i = 0; i < dataPositions.length; i++) {
+        dataBits += encodedBits[dataPositions[i]].toString();
+    }
+
+    return dataBits;
+}
 
 // =============================================================
-// TODO: EXPORT
+// EXPORT — Tüm public fonksiyonları Hamming namespace altında dışa aç
 // =============================================================
-// TODO: Tüm public fonksiyonları window.Hamming gibi bir namespace altında dışa aç
-//       veya basitçe global fonksiyonlar olarak bırak (öğrenci projesi seviyesi)
+window.Hamming = {
+    calculateParityBitCount: calculateParityBitCount,
+    isPowerOfTwo: isPowerOfTwo,
+    validateInput: validateInput,
+    encode: encode,
+    getParityPositions: getParityPositions,
+    getDataPositions: getDataPositions,
+    calculateParityBit: calculateParityBit,
+    calculateSyndrome: calculateSyndrome,
+    correctError: correctError,
+    decode: decode
+};
