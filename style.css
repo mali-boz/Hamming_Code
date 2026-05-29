@@ -1,77 +1,797 @@
 /* style.css — Tüm görsel stiller / All visual styles */
 
 /* ============================================================
-   TODO: GENEL SIFIRLAMA & TEMEL STİLLER
+   GOOGLE FONTS
    ============================================================ */
-/* TODO: *, *::before, *::after → box-sizing: border-box reset */
-/* TODO: body → font-family (system veya Google Fonts), arka plan rengi, padding */
-/* TODO: Genel renk paleti CSS custom properties olarak tanımla:
-         --color-primary, --color-secondary,
-         --color-parity, --color-data,
-         --color-error, --color-corrected,
-         --color-bg, --color-text              */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ============================================================
-   TODO: HEADER STİLLERİ
+   GENEL SIFIRLAMA & TEMEL STİLLER
    ============================================================ */
-/* TODO: h1 → büyük, bold, ortalanmış başlık */
-/* TODO: Alt başlık → daha küçük, soluk renk */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Ana Renkler */
+    --color-primary: #6C5CE7;
+    --color-primary-light: #A29BFE;
+    --color-secondary: #00CEC9;
+    --color-secondary-light: #81ECEC;
+
+    /* Bit Hücre Renkleri */
+    --color-parity: #6C5CE7;
+    --color-parity-bg: rgba(108, 92, 231, 0.15);
+    --color-parity-border: rgba(108, 92, 231, 0.4);
+    --color-data: #00B894;
+    --color-data-bg: rgba(0, 184, 148, 0.15);
+    --color-data-border: rgba(0, 184, 148, 0.4);
+    --color-error: #FF6B6B;
+    --color-error-bg: rgba(255, 107, 107, 0.18);
+    --color-error-border: rgba(255, 107, 107, 0.5);
+    --color-corrected: #00E676;
+    --color-corrected-bg: rgba(0, 230, 118, 0.18);
+    --color-corrected-border: rgba(0, 230, 118, 0.5);
+
+    /* Arka Plan & Yüzey */
+    --color-bg: #0F0E17;
+    --color-bg-secondary: #1A1929;
+    --color-surface: rgba(255, 255, 255, 0.04);
+    --color-surface-hover: rgba(255, 255, 255, 0.07);
+    --color-surface-border: rgba(255, 255, 255, 0.08);
+
+    /* Metin */
+    --color-text: #FFFFFE;
+    --color-text-secondary: #A7A9BE;
+    --color-text-muted: #585A6E;
+
+    /* Log Renkleri */
+    --color-log-info: #74B9FF;
+    --color-log-success: #55EFC4;
+    --color-log-warning: #FFEAA7;
+    --color-log-error: #FF7675;
+
+    /* Gölge & Efektler */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.45);
+    --shadow-glow-primary: 0 0 20px rgba(108, 92, 231, 0.3);
+    --shadow-glow-error: 0 0 20px rgba(255, 107, 107, 0.3);
+    --shadow-glow-success: 0 0 20px rgba(0, 230, 118, 0.3);
+
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+
+    /* Geçiş */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --transition-slow: 0.4s ease;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 24px;
+    /* Arka plan deseni */
+    background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(108, 92, 231, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(0, 206, 201, 0.08) 0%, transparent 60%);
+    background-attachment: fixed;
+}
 
 /* ============================================================
-   TODO: KONTROL PANELİ (#controls)
+   HEADER STİLLERİ
    ============================================================ */
-/* TODO: Flexbox veya grid ile butonları yatay hizala */
-/* TODO: Bit-uzunluğu seçici → radio group veya select stili */
-/* TODO: Input alanı → monospace font, geniş, border vurgusu */
-/* TODO: Butonlar → padding, border-radius, hover efekti, cursor pointer */
-/* TODO: Buton durumları: :hover, :active, :disabled */
-/* TODO: Her buton grubunu mantıksal olarak ayır (gap/margin) */
+#header {
+    text-align: center;
+    padding: 40px 20px 32px;
+    margin-bottom: 32px;
+}
+
+#header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+#header .subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
 
 /* ============================================================
-   TODO: BIT GRID (#bit-grid-container)
+   KONTROL PANELİ (#controls)
    ============================================================ */
-/* TODO: CSS Grid ile bit hücrelerini yatay sıralı göster */
-/* TODO: .bit-cell → sabit genişlik/yükseklik kare hücre, border, ortalanmış text */
-/* TODO: .bit-cell.parity → parity bitleri için farklı arka plan rengi (--color-parity) */
-/* TODO: .bit-cell.data → data bitleri için farklı arka plan rengi (--color-data) */
-/* TODO: .bit-cell.error → hatalı bit için kırmızı/turuncu vurgu (--color-error) */
-/* TODO: .bit-cell.corrected → düzeltilmiş bit için yeşil vurgu (--color-corrected) */
-/* TODO: .bit-cell:hover → hover efekti (tıklanabilir olduğunu göster) */
-/* TODO: .bit-cell .position-label → hücre üstündeki pozisyon numarası, küçük font */
-/* TODO: Grid'in responsive olması: 32-bit'te satır kırılmasına izin ver */
+#controls {
+    background: var(--color-surface);
+    border: 1px solid var(--color-surface-border);
+    border-radius: var(--radius-xl);
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.control-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+/* Bit uzunluğu radio butonları */
+#bit-length-selector label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+#bit-length-selector label:hover {
+    color: var(--color-text);
+    background: var(--color-surface-hover);
+}
+
+#bit-length-selector input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--color-text-muted);
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    position: relative;
+    cursor: pointer;
+}
+
+#bit-length-selector input[type="radio"]:checked {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    box-shadow: inset 0 0 0 3px var(--color-bg);
+}
+
+#bit-length-selector input[type="radio"]:checked + span,
+#bit-length-selector label:has(input:checked) {
+    color: var(--color-text);
+    background: var(--color-parity-bg);
+    border-color: var(--color-parity-border);
+}
+
+/* Input alanı */
+#data-input {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 2px solid var(--color-surface-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    min-width: 240px;
+    letter-spacing: 0.15em;
+    transition: all var(--transition-normal);
+}
+
+#data-input::placeholder {
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+}
+
+#data-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+#data-input.valid {
+    border-color: var(--color-data);
+    box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.15);
+}
+
+#data-input.invalid {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.15);
+}
+
+/* Geçerlilik göstergesi */
+.validity-indicator {
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 20px;
+    transition: all var(--transition-fast);
+}
+
+.validity-indicator.valid {
+    color: var(--color-data);
+}
+
+.validity-indicator.invalid {
+    color: var(--color-error);
+}
+
+/* Butonlar */
+#button-group {
+    gap: 8px;
+    margin-left: auto;
+}
+
+button {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    letter-spacing: 0.01em;
+    position: relative;
+    overflow: hidden;
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+#btn-encode {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #8B7CF7 100%);
+    color: #fff;
+    box-shadow: var(--shadow-sm), 0 0 16px rgba(108, 92, 231, 0.25);
+}
+
+#btn-encode:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md), var(--shadow-glow-primary);
+}
+
+#btn-write {
+    background: linear-gradient(135deg, #0984E3 0%, #74B9FF 100%);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+}
+
+#btn-write:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md), 0 0 16px rgba(9, 132, 227, 0.3);
+}
+
+#btn-read {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+    color: #0F0E17;
+    box-shadow: var(--shadow-sm);
+}
+
+#btn-read:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md), 0 0 16px rgba(0, 206, 201, 0.3);
+}
+
+#btn-detect {
+    background: linear-gradient(135deg, #E17055 0%, #FF7675 100%);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+}
+
+#btn-detect:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md), var(--shadow-glow-error);
+}
+
+#btn-reset {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-surface-border);
+}
+
+#btn-reset:hover:not(:disabled) {
+    color: var(--color-text);
+    border-color: var(--color-text-muted);
+    background: var(--color-surface-hover);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
 
 /* ============================================================
-   TODO: BELLEK GÖRÜNTÜLEME (#memory-view)
+   ANA İÇERİK LAYOUT
    ============================================================ */
-/* TODO: Tablo veya grid stili → adres + değer sütunları */
-/* TODO: Satır hover efekti */
-/* TODO: Monospace font (binary data için) */
-/* TODO: Boş bellek satırları soluk renkte */
+#main-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto auto;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+#bit-grid-section {
+    grid-column: 1 / -1;
+}
+
+#memory-section {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+#result-section {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+#main-content section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-surface-border);
+    border-radius: var(--radius-xl);
+    padding: 24px 28px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-sm);
+}
+
+#main-content h2 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-surface-border);
+}
 
 /* ============================================================
-   TODO: SONUÇ PANELİ (#result-panel)
+   BIT GRID (#bit-grid-container)
    ============================================================ */
-/* TODO: Log mesajları için dikey liste stili */
-/* TODO: Farklı mesaj tipleri için renk kodları:
-         .log-info (mavi), .log-success (yeşil),
-         .log-warning (sarı), .log-error (kırmızı)  */
-/* TODO: Kaydırılabilir (overflow-y: auto, max-height) */
-/* TODO: Her log satırına zaman damgası stili (opsiyonel) */
+#bit-grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.placeholder-text {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 32px 16px;
+    width: 100%;
+}
+
+.placeholder-text strong {
+    color: var(--color-primary-light);
+}
+
+.bit-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 62px;
+    border: 2px solid var(--color-surface-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    background: var(--color-surface);
+    user-select: none;
+}
+
+.bit-cell .position-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+}
+
+.bit-cell .bit-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+/* Parity bitleri */
+.bit-cell.parity {
+    background: var(--color-parity-bg);
+    border-color: var(--color-parity-border);
+}
+
+.bit-cell.parity .position-label {
+    color: var(--color-primary-light);
+}
+
+.bit-cell.parity .bit-value {
+    color: var(--color-primary-light);
+}
+
+/* Data bitleri */
+.bit-cell.data {
+    background: var(--color-data-bg);
+    border-color: var(--color-data-border);
+}
+
+.bit-cell.data .position-label {
+    color: var(--color-data);
+}
+
+.bit-cell.data .bit-value {
+    color: var(--color-data);
+}
+
+/* Hatalı bit */
+.bit-cell.error {
+    background: var(--color-error-bg);
+    border-color: var(--color-error-border);
+    box-shadow: var(--shadow-glow-error);
+    animation: pulse-error 1.2s ease-in-out infinite;
+}
+
+.bit-cell.error .position-label,
+.bit-cell.error .bit-value {
+    color: var(--color-error);
+}
+
+/* Düzeltilmiş bit */
+.bit-cell.corrected {
+    background: var(--color-corrected-bg);
+    border-color: var(--color-corrected-border);
+    box-shadow: var(--shadow-glow-success);
+    animation: pulse-success 0.6s ease-out;
+}
+
+.bit-cell.corrected .position-label,
+.bit-cell.corrected .bit-value {
+    color: var(--color-corrected);
+}
+
+/* Hover efekti */
+.bit-cell:hover {
+    transform: translateY(-2px) scale(1.05);
+    border-color: var(--color-text-muted);
+    box-shadow: var(--shadow-md);
+    z-index: 2;
+}
+
+.bit-cell:active {
+    transform: scale(0.96);
+}
 
 /* ============================================================
-   TODO: FOOTER
+   BELLEK GÖRÜNTÜLEME (#memory-view)
    ============================================================ */
-/* TODO: Ortalanmış, küçük font, soluk renk */
+#memory-view {
+    max-height: 340px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-text-muted) transparent;
+}
+
+#memory-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+}
+
+#memory-table thead th {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--color-surface-border);
+    position: sticky;
+    top: 0;
+    background: var(--color-bg-secondary);
+}
+
+#memory-table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+#memory-table tbody tr:hover {
+    background: var(--color-surface-hover);
+}
+
+#memory-table tbody td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+#memory-table tbody td:first-child {
+    color: var(--color-primary-light);
+    font-weight: 600;
+}
+
+/* Boş bellek satırı */
+#memory-table tbody tr.empty td {
+    color: var(--color-text-muted);
+    opacity: 0.4;
+}
 
 /* ============================================================
-   TODO: YARDIMCI SINIFLAR / UTILITIES
+   SONUÇ PANELİ (#result-panel)
    ============================================================ */
-/* TODO: .hidden → display: none */
-/* TODO: .monospace → font-family: monospace */
-/* TODO: .highlight-animation → kısa bir flash/pulse animasyonu (keyframes) */
+#result-panel {
+    max-height: 340px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-text-muted) transparent;
+}
+
+#result-panel::-webkit-scrollbar,
+#memory-view::-webkit-scrollbar {
+    width: 5px;
+}
+
+#result-panel::-webkit-scrollbar-track,
+#memory-view::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#result-panel::-webkit-scrollbar-thumb,
+#memory-view::-webkit-scrollbar-thumb {
+    background: var(--color-text-muted);
+    border-radius: 10px;
+}
+
+.log-entry {
+    font-size: 0.84rem;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid transparent;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+    animation: slideIn 0.25s ease-out;
+}
+
+.log-entry .log-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    padding-top: 1px;
+}
+
+.log-entry .log-message {
+    flex: 1;
+    word-break: break-word;
+}
+
+.log-info {
+    border-left-color: var(--color-log-info);
+    background: rgba(116, 185, 255, 0.06);
+    color: var(--color-log-info);
+}
+
+.log-success {
+    border-left-color: var(--color-log-success);
+    background: rgba(85, 239, 196, 0.06);
+    color: var(--color-log-success);
+}
+
+.log-warning {
+    border-left-color: var(--color-log-warning);
+    background: rgba(255, 234, 167, 0.06);
+    color: var(--color-log-warning);
+}
+
+.log-error {
+    border-left-color: var(--color-log-error);
+    background: rgba(255, 118, 117, 0.06);
+    color: var(--color-log-error);
+}
 
 /* ============================================================
-   TODO: RESPONSIVE / MOBİL
+   FOOTER
    ============================================================ */
-/* TODO: @media (max-width: 768px) → grid sütun sayısını azalt */
-/* TODO: @media (max-width: 480px) → butonları dikeye çevir */
+#footer {
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   YARDIMCI SINIFLAR / UTILITIES
+   ============================================================ */
+.hidden {
+    display: none !important;
+}
+
+.monospace {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ============================================================
+   ANİMASYONLAR
+   ============================================================ */
+@keyframes pulse-error {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(255, 107, 107, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.45);
+    }
+}
+
+@keyframes pulse-success {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(0, 230, 118, 0);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 24px rgba(0, 230, 118, 0.4);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: var(--shadow-glow-success);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes highlight-flash {
+    0% { background: rgba(255, 255, 255, 0.2); }
+    100% { background: transparent; }
+}
+
+.highlight-animation {
+    animation: highlight-flash 0.6s ease-out;
+}
+
+/* ============================================================
+   RESPONSIVE / MOBİL
+   ============================================================ */
+@media (max-width: 900px) {
+    #main-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    #bit-grid-section,
+    #result-section,
+    #memory-section {
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    #controls {
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .control-group {
+        justify-content: center;
+    }
+
+    #button-group {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    #data-input {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .bit-cell {
+        width: 44px;
+        height: 54px;
+    }
+
+    .bit-cell .bit-value {
+        font-size: 0.95rem;
+    }
+
+    #header h1 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #button-group {
+        flex-direction: column;
+    }
+
+    #button-group button {
+        width: 100%;
+    }
+
+    .bit-cell {
+        width: 38px;
+        height: 48px;
+    }
+
+    .bit-cell .bit-value {
+        font-size: 0.85rem;
+    }
+
+    .bit-cell .position-label {
+        font-size: 0.5rem;
+    }
+
+    #bit-length-selector {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
