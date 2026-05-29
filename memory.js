@@ -3,73 +3,122 @@
 // ⚠️ No DOM calls in this file — pure data storage logic only.
 
 // =============================================================
-// TODO: BELLEK YAPISI (MEMORY STRUCTURE)
+// BELLEK YAPISI (MEMORY STRUCTURE)
 // =============================================================
 
-// TODO: Bellek veri yapısını tanımla
-//   - memory: JS array (her eleman bir encoded bit dizisi tutar)
-//   - Her "adres" dizinin bir index'i (0, 1, 2, ...)
-//   - Başlangıçta boş array veya sabit boyutlu null-dolu array
-//   - Kapasite: en az 8 satır (adres) yeterli
+// Sabit kapasiteli bellek dizisi (8 adres, başlangıçta null)
+var CAPACITY = 8;
+var memory = new Array(CAPACITY).fill(null);
 
-// TODO: nextAddress değişkeni
-//   - Bir sonraki yazılacak adres (auto-increment)
-//   - write() çağrıldığında artır
+// Bir sonraki yazılacak adres (write() her çağrıldığında artar)
+var nextAddress = 0;
 
 // =============================================================
-// TODO: WRITE (YAZMA)
+// WRITE (YAZMA)
 // =============================================================
 
-// TODO: write(encodedBits)
-//   - encodedBits dizisini belleğe yaz (mevcut nextAddress'e)
-//   - Adresi bir artır
-//   - Return: { address: integer, data: array } — yazılan adres ve veri
+// Encoded bit dizisini belleğin bir sonraki adresine yazar
+function write(encodedBits) {
+    if (nextAddress >= CAPACITY) {
+        return { address: -1, data: null, error: "Bellek dolu! Kapasite: " + CAPACITY };
+    }
+    var address = nextAddress;
+    memory[address] = encodedBits.slice(); // kopyasını sakla
+    nextAddress++;
+    return { address: address, data: memory[address], error: null };
+}
 
 // =============================================================
-// TODO: READ (OKUMA)
+// READ (OKUMA)
 // =============================================================
 
-// TODO: read(address)
-//   - Belirtilen adresten veriyi oku
-//   - Adres geçersizse veya boşsa hata mesajı döndür
-//   - Return: encodedBits dizisi (array of 0/1) veya null
+// Belirtilen adresten veriyi okur, geçersiz adres için null döndürür
+function read(address) {
+    if (address < 0 || address >= CAPACITY) {
+        return null;
+    }
+    if (memory[address] === null) {
+        return null;
+    }
+    return memory[address].slice(); // kopyasını döndür (orijinali koru)
+}
 
-// TODO: readAll()
-//   - Bellekteki tüm dolu adresleri ve değerlerini döndür
-//   - Return: array of { address, data } nesneleri
-
-// =============================================================
-// TODO: HATA ENJEKSİYONU (BIT FLIP)
-// =============================================================
-
-// TODO: flipBit(address, bitPosition)
-//   - Belirtilen adresteki belirtilen pozisyondaki biti flip et (0→1, 1→0)
-//   - Orijinal ve yeni değeri logla
-//   - Return: { original: 0|1, flipped: 0|1, address, bitPosition }
-
-// =============================================================
-// TODO: RESET
-// =============================================================
-
-// TODO: reset()
-//   - Belleği tamamen sıfırla (boşalt)
-//   - nextAddress'i 0'a döndür
-//   - Return: void
+// Bellekteki tüm dolu adresleri ve değerlerini döndürür
+function readAll() {
+    var entries = [];
+    for (var i = 0; i < CAPACITY; i++) {
+        if (memory[i] !== null) {
+            entries.push({ address: i, data: memory[i].slice() });
+        }
+    }
+    return entries;
+}
 
 // =============================================================
-// TODO: DURUM SORGULAMA
+// HATA ENJEKSİYONU (BIT FLIP)
 // =============================================================
 
-// TODO: getSize()
-//   - Bellekte kaç dolu adres olduğunu döndür
-//   - Return: integer
-
-// TODO: getCapacity()
-//   - Belleğin toplam kapasitesini döndür
-//   - Return: integer
+// Belirtilen adresteki belirtilen pozisyondaki biti flip eder (0→1, 1→0)
+function flipBit(address, bitPosition) {
+    if (memory[address] === null) {
+        return { error: "Bu adreste veri yok!" };
+    }
+    if (bitPosition < 0 || bitPosition >= memory[address].length) {
+        return { error: "Geçersiz bit pozisyonu!" };
+    }
+    var original = memory[address][bitPosition];
+    memory[address][bitPosition] = original === 0 ? 1 : 0;
+    var flipped = memory[address][bitPosition];
+    return {
+        original: original,
+        flipped: flipped,
+        address: address,
+        bitPosition: bitPosition,
+        error: null
+    };
+}
 
 // =============================================================
-// TODO: EXPORT
+// RESET
 // =============================================================
-// TODO: Tüm public fonksiyonları window.Memory namespace altında dışa aç
-//       veya global fonksiyonlar olarak bırak
+
+// Belleği tamamen sıfırlar (tüm adresler null, yazma adresi 0)
+function reset() {
+    for (var i = 0; i < CAPACITY; i++) {
+        memory[i] = null;
+    }
+    nextAddress = 0;
+}
+
+// =============================================================
+// DURUM SORGULAMA
+// =============================================================
+
+// Bellekte kaç dolu adres olduğunu döndürür
+function getSize() {
+    var count = 0;
+    for (var i = 0; i < CAPACITY; i++) {
+        if (memory[i] !== null) {
+            count++;
+        }
+    }
+    return count;
+}
+
+// Belleğin toplam kapasitesini döndürür
+function getCapacity() {
+    return CAPACITY;
+}
+
+// =============================================================
+// EXPORT — Tüm public fonksiyonları Memory namespace altında dışa aç
+// =============================================================
+window.Memory = {
+    write: write,
+    read: read,
+    readAll: readAll,
+    flipBit: flipBit,
+    reset: reset,
+    getSize: getSize,
+    getCapacity: getCapacity
+};
