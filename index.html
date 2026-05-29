@@ -1,41 +1,106 @@
-<!-- index.html — Ana sayfa iskeleti / Main page skeleton -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hamming Error-Correcting Code (ECC) Simulator — BLM230 Computer Architecture project. Encode, inject errors, detect and correct with Hamming codes.">
+    <title>Hamming ECC Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<!-- TODO: HTML5 doctype ve lang="tr" attribute ekle -->
-<!-- TODO: <head> içinde meta charset UTF-8, viewport meta tag ekle -->
-<!-- TODO: <title> ile sayfa başlığını ayarla: "Hamming ECC Simulator" -->
-<!-- TODO: style.css dosyasını bağla -->
+    <!-- ============ HEADER ============ -->
+    <header id="header">
+        <h1>Hamming Error-Correcting Code Simulator</h1>
+        <p class="subtitle">BLM230 – Computer Architecture</p>
+    </header>
 
-<!-- TODO: HEADER BÖLÜMÜ -->
-<!--   - Proje başlığı (h1): "Hamming Error-Correcting Code Simulator" -->
-<!--   - Alt başlık: "BLM230 – Computer Architecture" -->
+    <!-- ============ KONTROL PANELİ ============ -->
+    <section id="controls">
 
-<!-- TODO: KONTROL PANELİ BÖLÜMÜ (#controls) -->
-<!--   - Bit uzunluğu seçimi: 8-bit / 16-bit / 32-bit (radio veya select) -->
-<!--   - Veri girişi: text input (binary string) + geçerlilik göstergesi -->
-<!--   - "Encode" butonu (#btn-encode) -->
-<!--   - "Write to Memory" butonu (#btn-write) -->
-<!--   - "Read from Memory" butonu (#btn-read) -->
-<!--   - "Detect & Correct" butonu (#btn-detect) -->
-<!--   - "Reset" butonu (#btn-reset) -->
+        <!-- Bit uzunluğu seçimi -->
+        <div id="bit-length-selector" class="control-group">
+            <span class="control-label">Bit Uzunluğu:</span>
+            <label><input type="radio" name="bit-length" value="8" checked> 8-bit</label>
+            <label><input type="radio" name="bit-length" value="16"> 16-bit</label>
+            <label><input type="radio" name="bit-length" value="32"> 32-bit</label>
+        </div>
 
-<!-- TODO: BIT GRID BÖLÜMÜ (#bit-grid-container) -->
-<!--   - Encoded veriyi görsel olarak gösteren grid alanı -->
-<!--   - Her bit bir tıklanabilir hücre olacak -->
-<!--   - Parity bitleri ve data bitleri farklı renklerle ayrılacak -->
-<!--   - Bit pozisyon numaraları hücrelerin üstünde gösterilecek -->
+        <!-- Veri girişi -->
+        <div id="data-input-group" class="control-group">
+            <label for="data-input" class="control-label">Veri (Binary):</label>
+            <input
+                type="text"
+                id="data-input"
+                class="monospace"
+                maxlength="8"
+                placeholder="Ör: 10110010"
+                autocomplete="off"
+                spellcheck="false"
+            >
+            <span id="input-validity" class="validity-indicator"></span>
+        </div>
 
-<!-- TODO: BELLEK GÖRÜNTÜLEME BÖLÜMÜ (#memory-view) -->
-<!--   - Simüle edilen bellek içeriğini gösteren tablo/grid -->
-<!--   - Adres ve değer sütunları -->
+        <!-- Butonlar -->
+        <div id="button-group" class="control-group">
+            <button id="btn-encode" type="button">Encode</button>
+            <button id="btn-write" type="button" disabled>Write to Memory</button>
+            <button id="btn-read" type="button" disabled>Read from Memory</button>
+            <button id="btn-detect" type="button" disabled>Detect &amp; Correct</button>
+            <button id="btn-reset" type="button">Reset</button>
+        </div>
 
-<!-- TODO: SONUÇ / LOG PANELİ (#result-panel) -->
-<!--   - Encoding sonucu -->
-<!--   - Syndrome hesaplama sonucu -->
-<!--   - Hata pozisyonu -->
-<!--   - Düzeltme sonucu -->
-<!--   - Adım adım log mesajları -->
+    </section>
 
-<!-- TODO: FOOTER -->
-<!--   - Öğrenci bilgileri, ders kodu -->
+    <!-- ============ ANA İÇERİK ============ -->
+    <main id="main-content">
 
-<!-- TODO: JS dosyalarını sırayla bağla: hamming.js → memory.js → ui.js -->
+        <!-- Bit Grid -->
+        <section id="bit-grid-section">
+            <h2>Bit Grid</h2>
+            <div id="bit-grid-container">
+                <!-- Bit hücreleri JavaScript tarafından dinamik oluşturulacak -->
+                <p class="placeholder-text">Henüz kodlanmış veri yok. Yukarıdan veri girin ve <strong>Encode</strong> butonuna basın.</p>
+            </div>
+        </section>
+
+        <!-- Bellek Görüntüleme -->
+        <section id="memory-section">
+            <h2>Memory View</h2>
+            <div id="memory-view">
+                <table id="memory-table">
+                    <thead>
+                        <tr>
+                            <th>Adres</th>
+                            <th>Değer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memory-table-body">
+                        <!-- Bellek satırları JavaScript tarafından dinamik oluşturulacak -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sonuç / Log Paneli -->
+        <section id="result-section">
+            <h2>Log</h2>
+            <div id="result-panel">
+                <!-- Log mesajları JavaScript tarafından dinamik eklenecek -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer id="footer">
+        <p>BLM230 – Computer Architecture &bull; Hamming ECC Simulator</p>
+    </footer>
+
+    <!-- ============ JS DOSYALARI (sıra önemli!) ============ -->
+    <script src="hamming.js"></script>
+    <script src="memory.js"></script>
+    <script src="ui.js"></script>
+
+</body>
+</html>
