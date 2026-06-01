@@ -17,7 +17,7 @@ Bu proje, **BLM230 Bilgisayar Mimarisi** dersi kapsamında Hamming kodlama algor
 
 ## 📷 Ekran Görüntüsü
 
-![Ana Sayfa Ekran Görüntüsü](img0)
+![Ana Sayfa Ekran Görüntüsü](img0.png)
 
 ---
 
