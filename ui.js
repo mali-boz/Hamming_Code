@@ -367,7 +367,10 @@ function handleDetectCorrect() {
         return;
     }
 
-    log('Syndrome = ' + syndromeResult.syndrome +
+    var parityCount = Hamming.calculateParityBitCount(state.currentDataBits.length);
+    var syndromeWord = syndromeResult.syndrome.toString(2).padStart(parityCount, '0');
+
+    log('Syndrome Kelimesi = ' + syndromeWord + ' (Decimal: ' + syndromeResult.syndrome + ')' +
         ' → Hata pozisyon ' + syndromeResult.errorPosition + ' de tespit edildi!', 'warning');
 
     // Hatayı düzelt
