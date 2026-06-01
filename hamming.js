@@ -1,6 +1,5 @@
-// hamming.js — Saf Hamming ECC mantığı / Pure Hamming ECC logic
-// ⚠️ Bu dosyada DOM çağrısı OLMAYACAK — sadece veri işleme fonksiyonları.
-// ⚠️ No DOM calls in this file — pure data processing functions only.
+// Pure Hamming ECC logic
+// No DOM calls in this file — pure data processing functions only.
 
 // =============================================================
 // TODO: YARDIMCI FONKSİYONLAR (HELPER FUNCTIONS)
