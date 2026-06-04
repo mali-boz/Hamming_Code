@@ -25,7 +25,9 @@ Bu proje, **BLM230 Bilgisayar Mimarisi** dersi kapsamında Hamming kodlama algor
 
 Projeyi çalışırken görmek istersen aşağıdaki bağlantıya tıklayarak demo videosunu izleyebilirsin:
 
-📺 [YouTube'da İzle](#)
+[![Demo Videosu](https://img.youtube.com/vi/Zy5OEs1z3Z4/maxresdefault.jpg)](https://youtu.be/Zy5OEs1z3Z4)
+
+📺 [YouTube'da İzle](https://youtu.be/Zy5OEs1z3Z4)
 
 ---
 
